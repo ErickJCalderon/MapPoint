@@ -30,12 +30,12 @@ def direccionesDiccionario(direccion):
 
     return output
 
-# Function based view
+
 def myView(request):
-    # Single Blog
+    # Single Direccion
     direccion = models.Direccion.objects.get(id = 1)
 
-    # Multiple Blogs
+    # Multiple Direcciones
     direcciones = models.Direccion.objects.all()
     tempDir = []
 
