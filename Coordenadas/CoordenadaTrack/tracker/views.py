@@ -4,14 +4,15 @@ from .models import Direccion
 from django.http import JsonResponse
 from . import models
 
+
 class DireccionListView(ListView):
     model = Direccion
 
-    def get(self,request):
+    def get(self, request):
         contexto = {
             'direcciones': list(Direccion.objects.all())
         }
-        return render(request,"direcciones.html",context=contexto)
+        return render(request, "direcciones.html", context=contexto)
 
 
 def direccionesDiccionario(direccion):
@@ -33,7 +34,7 @@ def direccionesDiccionario(direccion):
 
 def myView(request):
     # Single Direccion
-    direccion = models.Direccion.objects.get(id = 1)
+    direccion = models.Direccion.objects.get(id=1)
 
     # Multiple Direcciones
     direcciones = models.Direccion.objects.all()
@@ -43,7 +44,7 @@ def myView(request):
     direccion = direccionesDiccionario(direccion)
 
     for i in range(len(direcciones)):
-        tempDir.append(direccionesDiccionario(direcciones[i])) # Converting `QuerySet` to a Python Dictionary
+        tempDir.append(direccionesDiccionario(direcciones[i]))  # Converting `QuerySet` to a Python Dictionary
 
     direcciones = tempDir
 
