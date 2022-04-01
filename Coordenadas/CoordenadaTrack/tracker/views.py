@@ -8,46 +8,43 @@ from . import models
 class DireccionListView(ListView):
     model = Direccion
 
-    def get(self, request):
+    """def get(self, request):
         contexto = {
             'direcciones': list(Direccion.objects.all())
         }
         return render(request, "direcciones.html", context=contexto)
+"""
+
+    def direccionesDiccionario(direccion):
+        output = {
+            "id": direccion.id,
+            "nombre": direccion.nombre,
+            "longitud": direccion.longitud,
+            "latitud": direccion.latitud,
+        }
+
+        return output
 
 
-def direccionesDiccionario(direccion):
-    """
-    A utility function to convert object of type Blog to a Python Dictionary
-    """
+    def jsonView(self, request):
+        # Single Direccion
+        direccion = models.Direccion.objects.get(id=1)
 
-    data = {}
-    data["id"] = direccion.id
-    data["nombre"] = direccion.nombre
-    data["longitud"] = direccion.longitud
-    data["latitud"] = direccion.latitud
+        # Multiple Direcciones
+        direcciones = models.Direccion.objects.all()
+        tempDir = []
 
-    return data
+        # Converting `QuerySet` to a Python Dictionary
+        direccion = request.direccionesDiccionario(direccion)
 
+        for i in range(len(direcciones)):
+            tempDir.append(request.direccionesDiccionario(direcciones[i]))  # Converting `QuerySet` to a Python Dictionary
 
-def myView(request):
-    # Single Direccion
-    direccion = models.Direccion.objects.get(id=1)
+        direcciones = tempDir
 
-    # Multiple Direcciones
-    direcciones = models.Direccion.objects.all()
-    tempDir = []
+        data = {
+            "direccion": direccion,
+            "direcciones": direcciones
+        }
 
-    # Converting `QuerySet` to a Python Dictionary
-    direccion = direccionesDiccionario(direccion)
-
-    for i in range(len(direcciones)):
-        tempDir.append(direccionesDiccionario(direcciones[i]))  # Converting `QuerySet` to a Python Dictionary
-
-    direcciones = tempDir
-
-    data = {
-        "direccion": direccion,
-        "direcciones": direcciones
-    }
-
-    return JsonResponse(data)
+        return JsonResponse(data)
