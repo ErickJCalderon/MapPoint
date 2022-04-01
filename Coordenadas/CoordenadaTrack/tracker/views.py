@@ -19,17 +19,14 @@ def direccionesDiccionario(direccion):
     """
     A utility function to convert object of type Blog to a Python Dictionary
     """
-    output = {}
-    output["title"] = direccion.title
-    output["description"] = direccion.description
-    output["showcaseImage"] = direccion.showcaseImage.url
-    output["dateTimeOfCreation"] = direccion.dateTimeOfCreation.strftime("%m/%d/%Y, %H:%M:%S")
-    output["shareURL"] = direccion.shareURL
-    output["likes"] = direccion.likes
-    output["disLikes"] = direccion.disLikes
-    output["bookmarks"] = direccion.bookmarks
 
-    return output
+    data = {}
+    data["id"] = direccion.id
+    data["nombre"] = direccion.nombre
+    data["longitud"] = direccion.longitud
+    data["latitud"] = direccion.latitud
+
+    return data
 
 
 def myView(request):
