@@ -21,4 +21,4 @@ class Direccion(models.Model):
         verbose_name_plural = "Coordenadass"
 
     def __str__(self):
-        return self.nombre
+        return self.id
