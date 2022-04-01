@@ -11,10 +11,8 @@ class Direccion(models.Model):
         (AVENIDA, 'Avenida'),
         (PLAZA, 'Plaza'),
     ]
-    tipo_via = models.CharField(max_length=4, choices=VIA_CHOISES, default=CALLE)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
-    numero = models.PositiveIntegerField()
-    ciudad = models.CharField(max_length=50)
     longitud = models.DecimalField(max_digits=12, decimal_places=6)
     latitud = models.DecimalField(max_digits=12, decimal_places=6)
 
