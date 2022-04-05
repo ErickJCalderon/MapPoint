@@ -39,13 +39,15 @@
     </div>
 
     <script>
+        const ERROR = "Respuesta incorrecta del servidor";
+        
         // Petición con Ajax Fetch.
         fetch('https://apimocha.com/coordenadatrack/rutas')
             .then( response => {
                 if(response.status == 200) {
                     return response.json();
                 } else {
-                    throw "Respuesta incorrecta del servidor";
+                    throw ERROR;
                 }
             })
             .then( data => {
