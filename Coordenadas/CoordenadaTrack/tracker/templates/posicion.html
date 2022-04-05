@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Posicion</title>
+    <!-- css de la librería leaflet y js de dicha libería. Se utiliza para crear y modificar mapas en una alicación -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+            integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+            crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+    <!-- css y js del plugin de leaflet que crea las rutas automaticamente -->
+    <link rel="stylesheet" type="text/css"
+          href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css">
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <!-- css y js de Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <!-- css propio -->
+    <link rel="stylesheet" type="text/css" href="../static/css/stylePosicion.css">
+</head>
+<body>
+    <div class="container p-3">
+        <div class="row text-center border">
+            <div class="col fondo-title">
+                <h2 class="title">Posicion</h2>
+            </div>
+        </div>
+        <div class="row text-center border">
+            <div class="col p-0">
+                <div id="map" class="leaflet-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ERROR = "Respuesta incorrecta del servidor";
+        const MAPURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const CONTRIBUTORS = '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
+        const PETICIONURL = 'https://apimocha.com/coordenadatrack/rutas';
+        const ICONURL = '../static/images/iconAzul.png';
+
+        // Petición con Ajax Fetch.
+        fetch(PETICIONURL)
+            .then( response => {
+                if(response.status == 200) {
+                    return response.json();
+                } else {
+                    throw ERROR;
+                }
+            })
+            .then( data => {
+                createRoute(createMap(), data.datos);
+            })
+            .catch( err => {
+                console.log(err);
+            });
+
+        // Creación del mapa con leaflet
+        function createMap(){
+            var map = L.map('map', {
+                center: [40.4165, -3.70256],
+                zoom: 5,
+                minZoom: 5,
+                maxZoom: 15 });
+            L.tileLayer(MAPURL, {attribution: CONTRIBUTORS }).addTo(map);
+            return map;
+        }
+
+        // Se crea la ruta, añadiendo tantos puntos (waypoints) como sea necesario.
+        //Según el Json obtenido a través del fetch se irán añadiendo las coordenadas a la ruta.
+        function createRoute(map, data){
+            //Creacion de una plantilla base para los iconos de los waypoints.
+            //El icon es un div para así poder añadir texto encima de la imagen de icono. El div se crea con DOM.
+            L.NumberedIcon = L.Icon.extend({
+                options: {
+                    iconUrl: ICONURL,
+                    iconSize: new L.Point(25, 41),
+                        iconAnchor: new L.Point(13, 41),
+                        popupAnchor: new L.Point(0, -30),
+                        className: 'icon',
+                },
+                createIcon: function () {
+                    var icon = document.createElement('div');
+                    var img = this._createImg(this.options['iconUrl']);
+                    var num = document.createElement('div');
+                    num.setAttribute ( "class", "number" );
+                    num.innerHTML = this.options['number'];
+                    icon.appendChild (img);
+                    icon.appendChild (num);
+                    this._setIconStyles(icon, 'icon');
+                    return icon;
+                },
+            });
+
+            //Creacion de los puntos con el popup editado. 
+            var points = [];
+            for(var i = 0; i < data.length; i++){
+                L.marker(L.latLng(data[i].latitud, data[i].longitud),
+                {icon: new L.NumberedIcon({
+                    number: data[i].texto_marcador
+                })})
+                .bindPopup(data[i].nombre, {className : 'customPopup'})
+                .addTo(map);
+            }
+        }
+    </script>
+</body>
+</html>
