@@ -1,6 +1,7 @@
 from django.forms import models
+from django.shortcuts import render
 
-def json_diccionario():
+def json_diccionario(request):
     # Multiple Direcciones
     direcciones = models.Direccion.objects.all()
     tempDir = []
@@ -11,5 +12,4 @@ def json_diccionario():
             {'latitud': i.latitud},
             {'longitud': i.longitud},
         )
-
-    return tempDir
+    return render(request,'direcciones.html',{'tempDir': tempDir})

@@ -2,6 +2,6 @@ from utilities.generalutils import *
 from django.http import JsonResponse
 
 
-def jsonView(self, request):
+def jsonView():
     datos = json_diccionario()
     return JsonResponse(datos)
