@@ -43,6 +43,7 @@
         const MAPURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         const CONTRIBUTORS = '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
         const PETICIONURL = 'https://apimocha.com/coordenadatrack/rutas';
+        const ICONURL = '../static/images/iconAzul.png';
         
         // Petición con Ajax Fetch.
         fetch(PETICIONURL)
@@ -74,6 +75,29 @@
         // Se crea la ruta, añadiendo tantos puntos (waypoints) como sea necesario.
         //Según el Json obtenido a través del fetch se irán añadiendo las coordenadas a la ruta.
         function createRoute(map, data){
+            //Creacion de una plantilla base para los iconos de los waypoints.
+            //El icon es un div para así poder añadir texto encima de la imagen de fondo(icono).El div se crea con DOM.
+            L.NumberedIcon = L.Icon.extend({
+                options: {
+                    iconUrl: ICONURL,
+                    iconSize: new L.Point(25, 41),
+                        iconAnchor: new L.Point(13, 41),
+                        popupAnchor: new L.Point(0, -30),
+                        className: 'icon',
+                },
+                createIcon: function () {
+                    var icon = document.createElement('div');
+                    var img = this._createImg(this.options['iconUrl']);
+                    var num = document.createElement('div');
+                    num.setAttribute ( "class", "number" );
+                    num.innerHTML = this.options['number'];
+                    icon.appendChild (img);
+                    icon.appendChild (num);
+                    this._setIconStyles(icon, 'icon');
+                    return icon;
+                },
+            });
+            
             var points = [];
             for(var i = 0; i < data.length; i++){
                 points.push(L.latLng(data[i].latitud, data[i].longitud));
