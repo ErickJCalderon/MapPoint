@@ -40,6 +40,8 @@
 
     <script>
         const ERROR = "Respuesta incorrecta del servidor";
+        const MAPURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const CONTRIBUTORS = '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
         
         // Petición con Ajax Fetch.
         fetch('https://apimocha.com/coordenadatrack/rutas')
@@ -64,7 +66,7 @@
                 zoom: 5,
                 minZoom: 5,
                 maxZoom: 15 });
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+            L.tileLayer(MAPURL, {attribution: CONTRIBUTORS }).addTo(map);
             return map;
         }
 
