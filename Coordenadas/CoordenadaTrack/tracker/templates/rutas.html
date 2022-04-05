@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rutas</title>
+    <!-- css de la librería leaflet y js de dicha libería. Se utiliza para crear y modificar mapas en una alicación -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+            integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+            crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+    <!-- css y js del plugin de leaflet que crea las rutas automaticamente -->
+    <link rel="stylesheet" type="text/css"
+          href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css">
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <!-- css y js de Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <!-- css propio -->
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+</head>
+<body>
+    <div class="container p-3">
+        <div class="row text-center border">
+            <div class="col fondo-title">
+                <h2 class="title">Rutas</h2>
+            </div>
+        </div>
+        <div class="row text-center border">
+            <div class="col p-0">
+                <div id="map" class="leaflet-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Petición con Ajax Fetch.
+        fetch('https://apimocha.com/coordenadatrack/rutas')
+            .then( response => {
+                if(response.status == 200) {
+                    return response.json();
+                } else {
+                    throw "Respuesta incorrecta del servidor";
+                }
+            })
+            .then( data => {
+                createRoute(createMap(), data.datos);
+            })
+            .catch( err => {
+                console.log(err);
+            });
+
+        // Creación del mapa con leaflet
+        function createMap(){
+            var map = L.map('map', {
+                center: [40.4165, -3.70256],
+                zoom: 5,
+                minZoom: 5,
+                maxZoom: 15 });
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+            return map;
+        }
+
+        // Se crea la ruta, añadiendo tantos puntos (waypoints) como sea necesario.
+        //Según el Json obtenido a través del fetch se irán añadiendo las coordenadas a la ruta.
+        function createRoute(map, data){
+            var points = [];
+            for(var i = 0; i < data.length; i++){
+                points.push(L.latLng(data[i].latitud, data[i].longitud));
+            }
+            L.Routing.control({
+                waypoints: points,
+                createMarker: function (i, waypoints){
+                    return L.marker(waypoints.latLng).bindPopup(data[i].nombre);
+                },
+                language: 'es',
+            }).addTo(map);
+        }
+    </script>
+</body>
+</html>
