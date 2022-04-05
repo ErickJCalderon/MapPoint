@@ -1,0 +1,26 @@
+#map { height: 450px; outline: none; }
+.title { text-decoration: underline; }
+.fondo-title{ background-color: #A9CCE3; }
+.icon {
+	background: transparent;
+	border: none;
+}
+
+.icon .number{
+	position: relative;
+	top: -34px;
+	font-size: 9px;
+	width: 26px;
+	text-align: center;
+	color: black;
+	font-weight: bold;
+}
+
+/*Los Popup tienen clases de leaflet propias para cambiar su estilo.*/
+.customPopup .leaflet-popup-tip,
+.customPopup .leaflet-popup-content-wrapper {
+    background: #A9CCE3;
+    color: black;
+    text-decoration: underline;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+}
