@@ -42,11 +42,11 @@
         const ERROR = "Respuesta incorrecta del servidor";
         const MAPURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         const CONTRIBUTORS = '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
-        const PETICIONURL = 'https://apimocha.com/coordenadatrack/rutas';
+        const PETICIONURL = 'https://apimocha.com/coordenadatrack/';
         const ICONURL = '../static/images/iconAzul.png';
         
         // Petición con Ajax Fetch.
-        fetch(PETICIONURL)
+        fetch(PETICIONURL + 'rutas')
             .then( response => {
                 if(response.status == 200) {
                     return response.json();
@@ -105,7 +105,11 @@
             L.Routing.control({
                 waypoints: points,
                 createMarker: function (i, waypoints){
-                    return L.marker(waypoints.latLng).bindPopup(data[i].nombre);
+                    return L.marker(waypoints.latLng,
+                    {icon: new L.NumberedIcon({
+                        number: data[i].texto_marcador
+                    })}))
+                    .bindPopup(data[i].nombre);
                 },
                 language: 'es',
             }).addTo(map);
