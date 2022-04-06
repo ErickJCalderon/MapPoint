@@ -42,11 +42,11 @@
         const ERROR = "Respuesta incorrecta del servidor";
         const MAPURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         const CONTRIBUTORS = '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
-        const PETICIONURL = 'https://apimocha.com/coordenadatrack/rutas';
+        const PETICIONURL = 'https://apimocha.com/coordenadatrack/';
         const ICONURL = '../static/images/iconAzul.png';
 
         // Petición con Ajax Fetch.
-        fetch(PETICIONURL)
+        fetch(PETICIONURL + 'rutas')
             .then( response => {
                 if(response.status == 200) {
                     return response.json();
@@ -99,15 +99,87 @@
             });
 
             //Creacion de los puntos con el popup editado. 
-            var points = [];
             for(var i = 0; i < data.length; i++){
+                //Se crea el punto.
                 L.marker(L.latLng(data[i].latitud, data[i].longitud),
                 {icon: new L.NumberedIcon({
                     number: data[i].texto_marcador
                 })})
-                .bindPopup(data[i].nombre, {className : 'customPopup'})
-                .addTo(map);
+                
+                //Se indica cual va a ser el contenido del popup.
+                getPopup(data[i].codigo_trabajo, marker)
+
+                //Añadir punto al mapa.
+                marker.addTo(map);
             }
+        }
+        
+        function getPopup(codTrabajo, marker){
+            //Petición según el codigo de trabajo del punto.
+            fetch(PETICIONURL+'detalle_trabajo/'+ codTrabajo)
+            .then(response => {
+                if(response.status == 200) {
+                    return response.json();
+                } else {
+                    throw ERROR;
+                }
+            })
+            .then( data => {
+                //Se añade al punto el popup con el contenido.
+                marker.bindPopup(datosPopup(data), {className : 'customPopup'})
+            })
+            .catch( err => {
+                console.log(err);
+            });
+        }
+
+        function datosPopup(data){
+            var datos = document.createElement('div');
+            datos.setAttribute('class', 'datosPopup');
+            datos.setAttribute('class', 'container');
+            datos.setAttribute('class', 'text-center');
+            datos.setAttribute('class', 'border');
+
+            var row1 = document.createElement('div');
+            row1.setAttribute('class', 'row');
+            row1.setAttribute('class', 'border');
+            var title = document.createElement('h4');
+            title.setAttribute('class', 'col');
+            title.innerHTML = data.proyecto + " " + data.site;
+            row1.appendChild(title);
+
+            var row2 = document.createElement('div');
+            row2.setAttribute('class', 'row');
+            row2.setAttribute('class', 'justify-content-around');
+            var p1 = document.createElement('p');
+            p1.setAttribute('class', 'col-4');
+            p1.innerHTML = data.fecha;
+            var p2 = document.createElement('p');
+            p2.setAttribute('class', 'col-4');
+            p2.innerHTML = data.hora_llegada;
+            row2.appendChild(p1);
+            row2.appendChild(p2);
+
+            var row3 = document.createElement('div');
+            row3.setAttribute('class', 'row');
+            var p3 = document.createElement('p');
+            p3.setAttribute('class', 'col');
+            p1.innerHTML = data.hora_desde;
+            var p4 = document.createElement('p');
+            p4.setAttribute('class', 'col');
+            p1.innerHTML = data.hora_hasta;
+            var p5 = document.createElement('p');
+            p5.setAttribute('class', 'col');
+            p1.innerHTML = '( ' + data.duracion_estimada + ' )';
+            row3.appendChild(p3);
+            row3.appendChild(p4);
+            row3.appendChild(p5);
+
+            datos.appendChild(row1);
+            datos.appendChild(row2);
+            datos.appendChild(row3);
+
+            return datos;
         }
     </script>
 </body>
