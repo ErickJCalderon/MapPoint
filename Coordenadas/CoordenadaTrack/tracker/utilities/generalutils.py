@@ -1,7 +1,7 @@
 from django.forms import models
-from django.shortcuts import render
 
-def json_diccionario(request):
+
+def listar_puntos():
     # Multiple Direcciones
     direcciones = models.Direccion.objects.all()
     tempDir = []
@@ -9,7 +9,12 @@ def json_diccionario(request):
     for i in direcciones:
         i.pk
         tempDir.append(
-            {'latitud': i.latitud},
-            {'longitud': i.longitud},
+            {
+            'id': i.id,
+            'nombre': i.nombre,
+            'latitud': i.latitud,
+            'longitud': i.longitud
+             }
         )
-    return render(request,'direcciones.html',{'tempDir': tempDir})
+
+    return tempDir
