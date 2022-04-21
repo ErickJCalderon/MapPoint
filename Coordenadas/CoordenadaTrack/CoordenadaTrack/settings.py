@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tracker',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -74,15 +75,15 @@ WSGI_APPLICATION = 'CoordenadaTrack.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'direcciones',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'direcciones',
+            'USER': 'root',
+            'PASSWORD': 'root',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
     }
-}
 
 
 # Password validation
