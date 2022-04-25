@@ -7,7 +7,8 @@ def listar_puntos():
     tempDir = []
 
     try:
-        if direcciones.exists():
+        id_exists = direcciones.id
+        if id_exists != 0:
             print("Consultando direcciones")
     except direcciones.DoesNotExist:
         print("No existen valores")
