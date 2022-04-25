@@ -6,15 +6,21 @@ def listar_puntos():
     direcciones = models.Direccion.objects.all()
     tempDir = []
 
+    try:
+        if direcciones.exists():
+            print("Consultando direcciones")
+    except direcciones.DoesNotExist:
+        print("No existen valores")
+
     for i in direcciones:
         i.pk
         tempDir.append(
             {
-            'id': i.id,
-            'nombre': i.nombre,
-            'latitud': i.latitud,
-            'longitud': i.longitud
-             }
+                'id': i.id,
+                'nombre': i.nombre,
+                'latitud': i.latitud,
+                'longitud': i.longitud
+            }
         )
 
     return tempDir
