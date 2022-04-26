@@ -1,4 +1,4 @@
-from utilities.generalutils import *
+from utilities.direcciones_utils import *
 from django.http import *
 
 

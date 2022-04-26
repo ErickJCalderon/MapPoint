@@ -2,11 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 """Creaciond del modelo Usuarios"""
+
+
 class Usuario(models.Model):
     id = models.AutoField(primary_key=True)
     dni = models.CharField(max_length=9, unique=True)
     nombre = models.CharField(max_length=50)
-    apellidos = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50)
 
     """Asignacion de FK al auth_user"""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -21,6 +23,8 @@ class Usuario(models.Model):
 
 
 """Creacion del modelo Direccion"""
+
+
 class Direccion(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
