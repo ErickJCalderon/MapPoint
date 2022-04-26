@@ -1,6 +1,8 @@
 from django.forms import models
 
 """Definimos una funcion que nos lista los puntos de las coordenadas"""
+
+
 def listar_puntos():
     """asignamos todos los objetos de la tabla Direccion, a una lista llamada direcciones"""
     direcciones = models.Direccion.objects.all()
