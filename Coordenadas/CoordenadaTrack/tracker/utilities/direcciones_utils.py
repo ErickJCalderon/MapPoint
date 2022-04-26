@@ -27,8 +27,19 @@ def listar_puntos():
                 'id': i.id,
                 'nombre': i.nombre,
                 'latitud': i.latitud,
-                'longitud': i.longitud
+                'longitud': i.longitud,
+                'usuario' : i.usuario,
             }
         )
 
     return tempDir
+
+def registrar_direccion(usuario, nombre):
+    direccion= models.Direccion.objects.filter(usuario=usuario)
+    if direccion:
+        comprobar= models.Direccion.objects.filter(nombre=nombre)
+        if comprobar:
+            print("Esta direccion existe en la base de datos")
+        else:
+
+    return direccion
