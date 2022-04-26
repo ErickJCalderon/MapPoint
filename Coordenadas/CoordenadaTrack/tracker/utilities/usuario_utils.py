@@ -36,7 +36,6 @@ def usuario_existe(dni, usuario):
     return dir
 
 nuevo_usuario= {
-    'id': 44,
     'dni': "45678123P" ,
     'nombre': "Rebeca",
     'apellido': "Chambers",
@@ -48,7 +47,6 @@ nuevo_usuario= {
 def crear_usuario(dni=nuevo_usuario['dni'], nombre=nuevo_usuario['nombre']):
 
     usuario = models.Usuario.objetcs.create(
-        id=nuevo_usuario['id'],
         dni=dni,
         nombre=nombre,
         apellido=nuevo_usuario['apellido'],

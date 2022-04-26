@@ -28,18 +28,41 @@ def listar_puntos():
                 'nombre': i.nombre,
                 'latitud': i.latitud,
                 'longitud': i.longitud,
-                'usuario' : i.usuario,
+                'usuario': i.usuario,
             }
         )
 
     return tempDir
 
-def registrar_direccion(usuario, nombre):
-    direccion= models.Direccion.objects.filter(usuario=usuario)
-    if direccion:
-        comprobar= models.Direccion.objects.filter(nombre=nombre)
-        if comprobar:
-            print("Esta direccion existe en la base de datos")
-        else:
 
-    return direccion
+def registrar_direccion(identifier, nombre):
+
+    while True:
+        try:
+            direccion = models.Direccion.objects.filter(id=identifier)
+            if direccion:
+                comprobar = models.Direccion.objects.filter(nombre=nombre)
+                if comprobar:
+                    print("Esta direccion existe en la base de datos")
+                    break
+                else:
+                    print("Introduce las demas variables")
+                    print("Latitud: ")
+                    latitud = input()
+                    print("Longitud: ")
+                    longitud = input()
+                    print("Usuario: ")
+                    usuario = input()
+                    resgistro = models.Direccion.objects.create(
+                        id=identifier,
+                        nombre=nombre,
+                        latitud=latitud,
+                        longitud=longitud,
+                        usuario=usuario,
+                    )
+
+        except Exception as err:
+            print(err)
+            print()
+
+    return resgistro

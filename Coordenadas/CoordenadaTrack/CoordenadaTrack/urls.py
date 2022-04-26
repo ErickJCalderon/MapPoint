@@ -19,6 +19,7 @@ from tracker.api import router
 from django.urls.conf import include
 
 urlpatterns = [
+    path('', include(router.router.urls)),
     path('admin/', admin.site.urls),
-    path('api/', include(router.router.urls)),
+    path('api/', include('rest_framework.urls',  namespace='rest_framework')),
 ]

@@ -15,3 +15,4 @@ class DireccionSerializer(serializers.ModelSerializer):
         model = Direccion
         fields = ['id', 'nombre', 'longitud' , 'latitud']
 
+
