@@ -1,0 +1,29 @@
+{% extends 'metronicIncludes/layout/master.html' %}
+{% block content %}
+    {% load static %}
+
+                            <!--begin::Container-->
+                            <div id="kt_content_container" class="container p-3">
+                                <!--begin::Row-->
+                                <div class="row text-center border">
+                                    <!--begin::Col-->
+                                    <div class="col fondo-title">
+                                        <h2 class="title">Posicion</h2>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--begin::Row-->
+                                <div class="row text-center border">
+                                    <!--begin::Col-->
+                                    <div class="col p-0">
+                                        <div id="map" class="leaflet-container"></div>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Row-->
+                            </div>
+                            <!--end::Container-->
+                            <!-- script map -->
+                            <script src="{% static 'assets/js/custom/apps/map/posicion.js' %}"></script>
+
+{% endblock %}
