@@ -35,13 +35,20 @@ def listar_puntos():
     return tempDir
 
 
-def registrar_direccion(identifier, nombre):
+"""Metodo para registrar una direccion"""
 
+
+def registrar_direccion(identifier, nombre):
     while True:
+        """Comprobamos si el id existe, en caso de error salta una exception"""
         try:
             direccion = models.Direccion.objects.filter(id=identifier)
+
+            """En caso de existir, comprobamos si esta asignada a un nombre de usuario"""
             if direccion:
                 comprobar = models.Direccion.objects.filter(nombre=nombre)
+                """Una vez comprobado decimos al usuario que ya existe dicha direccion registrada y paramos el bucle
+                En caso contrario, decimos al usuario que registre la nueva direccion para el usuario"""
                 if comprobar:
                     print("Esta direccion existe en la base de datos")
                     break
@@ -60,9 +67,10 @@ def registrar_direccion(identifier, nombre):
                         longitud=longitud,
                         usuario=usuario,
                     )
+                    break
 
         except Exception as err:
             print(err)
-            print()
+            print("No se ha podido registrar nada")
 
     return resgistro
