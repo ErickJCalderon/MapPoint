@@ -41,6 +41,7 @@ def usuario_existe(identifier, dni):
 
 
 nuevo_usuario = {
+    'id': "80",
     'dni': "45678123P",
     'nombre': "Rebeca",
     'apellido': "Chambers",
@@ -51,11 +52,14 @@ nuevo_usuario = {
 """Metodo para crear un usuario, para esto hemos predefinido un usuario, retorna el usuario"""
 
 
-def crear_usuario(dni=nuevo_usuario['dni'], nombre=nuevo_usuario['nombre']):
+def crear_usuario(id=nuevo_usuario['id'], dni=nuevo_usuario['dni']):
     """"""
+    usuario_existe(id, dni)
+
     usuario = models.Usuario.objetcs.create(
+        id=id,
         dni=dni,
-        nombre=nombre,
+        nombre=nuevo_usuario['nombre'],
         apellido=nuevo_usuario['apellido'],
         user=nuevo_usuario['user'],
         email=nuevo_usuario['email']
