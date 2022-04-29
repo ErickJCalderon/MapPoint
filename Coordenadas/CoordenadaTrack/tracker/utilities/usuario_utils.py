@@ -33,6 +33,7 @@ def usuario_existe(identifier, dni):
                     print("El dni no coincide")
             else:
                 print("No existe ningun usuario con ese ID")
+
         except Exception as err:
             print(err)
             print("La consulta que quieres hacer no es posible, introduce otros parametros")

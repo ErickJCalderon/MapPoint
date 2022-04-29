@@ -7,8 +7,15 @@ def listar_puntos():
     """asignamos todos los objetos de la tabla Direccion, a una lista llamada direcciones"""
     direcciones = models.Direccion.objects.all()
 
+
+
     """creamos un diccionario temporal para las direccionmes que vamos guardando en la lista """
     tempDir = []
+
+    data = {
+        'data_error': "No hay datos",
+        'Ok': tempDir,
+    }
 
     """Comprobamos mediante un try/except que las direcciones recibidas no estan vacias preguntando
     si el campo de id es un numero distinto de 0 (es decir que existe por lo menos un registro)"""
@@ -32,21 +39,21 @@ def listar_puntos():
             }
         )
 
-    return tempDir
+    return data
 
 
 """Metodo para registrar una direccion"""
 
 
-def registrar_direccion(identifier, nombre):
+def registrar_direccion(identifier_direccion, nombre_usuario):
     while True:
         """Comprobamos si el id existe, en caso de error salta una exception"""
         try:
-            direccion = models.Direccion.objects.filter(id=identifier)
+            direccion = models.Direccion.objects.filter(id=identifier_direccion)
 
             """En caso de existir, comprobamos si esta asignada a un nombre de usuario"""
             if direccion:
-                comprobar = models.Direccion.objects.filter(nombre=nombre)
+                comprobar = models.Usuario.objects.filter(nombre=nombre_usuario)
                 """Una vez comprobado decimos al usuario que ya existe dicha direccion registrada y paramos el bucle
                 En caso contrario, decimos al usuario que registre la nueva direccion para el usuario"""
                 if comprobar:
