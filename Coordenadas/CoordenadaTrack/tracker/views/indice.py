@@ -8,7 +8,9 @@ from django.contrib import messages
 
 
 def jsonView(request):
+
     datos = listar_puntos()
+
     return JsonResponse(datos)
 
 
