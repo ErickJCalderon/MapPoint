@@ -1,5 +1,5 @@
 from ..utilities.direcciones_utils import *
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render
 from ..utilities.usuario_utils import *
 from django.contrib import messages
@@ -9,9 +9,27 @@ from django.contrib import messages
 
 def jsonView(request):
     if request.method == 'GET':
-        datos = listar_puntos()
+        datos = {}
+
+        try:
+            lista = listar_puntos()
+            if 'error' in lista:
+                datos['error']= lista['error']
+            else:
+                datos['Ok'] = lista['Ok']
+        except:
+            datos['error'] = "Se ha producido un error en la respuesta del servidor"
         return JsonResponse(datos)
 
+"""Request para el registro de una direccion"""
+
+def direccion(request):
+    if request.method == 'POST':
+        direccion = registrar_direccion(id, nombre)
+        messages.success("Se ha registrado exitosamente")
+        return JsonResponse(direccion)
+    else:
+        messages.error("No ha sido posible registrar la direccion")
 
 
 """Request para la creacion de un usuario"""
@@ -31,10 +49,4 @@ nombre = "Casa Erick"
 """Request para la creacion de una direccion"""
 
 
-def direccion(request):
-    if request.method == 'POST':
-        direccion = registrar_direccion(id, nombre)
-        messages.success("Se ha registrado exitosamente")
-        return JsonResponse(direccion)
-    else:
-        messages.error("No ha sido posible registrar la direccion")
+
