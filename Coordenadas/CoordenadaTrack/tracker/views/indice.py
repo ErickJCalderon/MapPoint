@@ -16,20 +16,28 @@ def jsonView(request):
             if 'error' in lista:
                 datos['error']= lista['error']
             else:
-                datos['Ok'] = lista['Ok']
+                datos['ok'] = lista['ok']
         except:
             datos['error'] = "Se ha producido un error en la respuesta del servidor"
         return JsonResponse(datos)
 
 """Request para el registro de una direccion"""
+id_direccion = 1
+nombre_usuario = "Erick"
+
 
 def direccion(request):
     if request.method == 'POST':
-        direccion = registrar_direccion(id, nombre)
-        messages.success("Se ha registrado exitosamente")
-        return JsonResponse(direccion)
-    else:
-        messages.error("No ha sido posible registrar la direccion")
+        datos = {}
+        try:
+            direccion = registrar_direccion(id_direccion, nombre_usuario)
+            if 'error' in direccion:
+                datos['error'] = direccion['error']
+            else:
+                datos['ok'] = direccion['ok']
+        except:
+            datos['error'] = "Se ha producido un error en la respuesta del servidor"
+        return datos
 
 
 """Request para la creacion de un usuario"""
@@ -44,9 +52,7 @@ def usuario(request):
         messages.error("No ha sido posible crearlo")
 
 
-id = 1
-nombre = "Casa Erick"
-"""Request para la creacion de una direccion"""
+
 
 
 
