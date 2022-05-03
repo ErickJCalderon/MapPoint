@@ -13,10 +13,16 @@ class DireccionApiView(ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
+"""Creamos la clase que implementa el modelo UserDefault de Django"""
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+"""Creamos la clase que implementa el modelo Usuario"""
 
 
 class UsuarioViewSet(viewsets.ModelViewSet):

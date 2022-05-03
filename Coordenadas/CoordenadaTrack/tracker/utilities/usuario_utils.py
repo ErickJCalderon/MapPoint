@@ -54,7 +54,7 @@ nuevo_usuario = {
 
 
 def crear_usuario(id=nuevo_usuario['id'], dni=nuevo_usuario['dni']):
-    """"""
+
     usuario_existe(id, dni)
 
     usuario = models.Usuario.objetcs.create(
