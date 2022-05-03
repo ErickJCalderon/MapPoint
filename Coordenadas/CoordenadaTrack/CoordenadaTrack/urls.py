@@ -18,6 +18,8 @@ from django.urls import path
 from tracker.api import router
 from django.urls.conf import include
 
+
+
 urlpatterns = [
     path('', include(router.router.urls)),
     path('admin/', admin.site.urls),

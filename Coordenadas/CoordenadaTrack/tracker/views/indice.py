@@ -8,10 +8,10 @@ from django.contrib import messages
 
 
 def jsonView(request):
+    if request.method == 'GET':
+        datos = listar_puntos()
+        return JsonResponse(datos)
 
-    datos = listar_puntos()
-
-    return JsonResponse(datos)
 
 
 """Request para la creacion de un usuario"""

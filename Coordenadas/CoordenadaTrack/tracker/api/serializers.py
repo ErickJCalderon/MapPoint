@@ -14,7 +14,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class DireccionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Direccion
-        fields = ['id', 'nombre', 'longitud' , 'latitud']
+        fields = ['id', 'nombre', 'longitud' , 'latitud', 'usuario']
 
 """Serializamos el modelo de Direcciones que hemos creado"""
 class Usuarioserializer(serializers.ModelSerializer):

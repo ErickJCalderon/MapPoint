@@ -22,7 +22,7 @@ def listar_puntos():
                 )
             data['ok'] = tempDir
         else:
-            data['error'] = " No se ha `podido obtener datos de las direcciones"
+            data['error'] = " No se ha podido obtener datos de las direcciones"
     except:
         data['error'] = " Se ha producido un error al obtener datos del usuario"
     return data
@@ -32,38 +32,33 @@ def listar_puntos():
 
 
 def registrar_direccion(identifier_direccion, nombre_usuario):
-    while True:
-        """Comprobamos si el id existe, en caso de error salta una exception"""
-        try:
-            direccion = models.Direccion.objects.filter(id=identifier_direccion)
-
-            """En caso de existir, comprobamos si esta asignada a un nombre de usuario"""
-            if direccion:
-                comprobar = models.Usuario.objects.filter(nombre=nombre_usuario)
-                """Una vez comprobado decimos al usuario que ya existe dicha direccion registrada y paramos el bucle
-                En caso contrario, decimos al usuario que registre la nueva direccion para el usuario"""
-                if comprobar:
-                    print("Esta direccion existe en la base de datos")
-                    break
-                else:
-                    print("Introduce las demas variables")
-                    print("Latitud: ")
-                    latitud = input()
-                    print("Longitud: ")
-                    longitud = input()
-                    print("Usuario: ")
-                    usuario = input()
-                    resgistro = models.Direccion.objects.create(
-                        id=identifier,
-                        nombre=nombre,
-                        latitud=latitud,
-                        longitud=longitud,
-                        usuario=usuario,
+    data = {}
+    """Comprobamos si el la direccion existe, en caso de error salta una exception"""
+    try:
+        direccion = models.Direccion.objects.filter(id=identifier_direccion)
+        """En caso de existir, comprobamos si el usuario existe"""
+        if direccion:
+            comprobar = models.Usuario.objects.filter(nombre=nombre_usuario)
+            if comprobar:
+                print("Introduce las demas variables")
+                print("Nombre de la direccion: ")
+                nombre_direccion: input()
+                print("Latitud: ")
+                latitud = input()
+                print("Longitud: ")
+                longitud = input()
+                models.Direccion.objects.create(
+                    nombre=nombre_direccion,
+                    latitud=latitud,
+                    longitud=longitud,
+                    usuario=nombre_usuario,
                     )
-                    break
+                data['OK'] = "Direccion creada con exito"
+            else:
+                data['error'] = "No existe el usuario"
+        else:
+            data['error'] = "La direccion no existe"
+    except :
+        data['error'] = "Parametros introducidos erroneos"
 
-        except Exception as err:
-            print(err)
-            print("No se ha podido registrar nada")
-
-    return resgistro
+    return data
