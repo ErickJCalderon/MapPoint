@@ -42,7 +42,7 @@
         const ERROR = "Respuesta incorrecta del servidor";
         const MAPURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         const CONTRIBUTORS = '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
-        const PETICIONURL = 'https://apimocha.com/coordenadatrack/';
+        const PETICIONURL = 'https://apimocha.com/coordenadatrack2/';
         const ICONURL = '../static/images/iconAzul.png';
 
         // Petición con Ajax Fetch.
@@ -101,7 +101,7 @@
             //Creacion de los puntos con el popup editado. 
             for(var i = 0; i < data.length; i++){
                 //Se crea el punto.
-                L.marker(L.latLng(data[i].latitud, data[i].longitud),
+                marker = L.marker(L.latLng(data[i].latitud, data[i].longitud),
                 {icon: new L.NumberedIcon({
                     number: data[i].texto_marcador
                 })})
